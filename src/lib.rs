@@ -1,4 +1,4 @@
-use ::log::debug;
+use ::log::trace;
 use bytes::BytesMut;
 use dns_lookup::lookup_host;
 use std::net::SocketAddr;

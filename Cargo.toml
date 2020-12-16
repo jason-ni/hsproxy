@@ -21,6 +21,6 @@ tokio = { version = "0.3", features = ["full"]}
 url = "2.2.0"
 
 [dev-dependencies]
-thrussh = {path = "../thrussh-mod"}
+thrussh = { git = "https://github.com/jason-ni/thrussh-mod.git", branch = "develop" }
 futures = "0.3"
 thrussh-keys = "0.19.4"

@@ -4,32 +4,15 @@ extern crate thrussh;
 extern crate thrussh_keys;
 extern crate tokio;
 use anyhow::Context;
-use futures::{StreamExt, TryFutureExt};
+use futures::StreamExt;
 use hsproxy;
-use log::{error, info};
-use std::net::SocketAddr;
-use std::str::FromStr;
+use log::info;
 use std::sync::Arc;
 use thrussh::client::channel::ChannelExt;
 use thrussh::client::tunnel::{handle_connect, upgrade_to_remote_forward_tcpip_listener};
 use thrussh::*;
-use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio::io::AsyncWriteExt;
 use tokio::net::TcpStream;
-
-async fn copy<R: AsyncReadExt + Unpin, W: AsyncWriteExt + Unpin>(
-    mut r: R,
-    mut w: W,
-) -> Result<(), anyhow::Error> {
-    let mut buf = bytes::BytesMut::with_capacity(2048);
-    loop {
-        buf.clear();
-        let n = r.read_buf(&mut buf).await?;
-        if n == 0 {
-            return Ok(());
-        }
-        w.write_all(&buf[..n]).await?;
-    }
-}
 
 #[tokio::main]
 async fn main() {
